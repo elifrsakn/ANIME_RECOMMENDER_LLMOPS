@@ -1,0 +1,16 @@
+langchain
+langchain-community
+langchain-groq
+chromadb
+streamlit
+pandas
+numpy
+scikit-learn
+scikit-optimize
+scipy
+matplotlib
+seaborn
+plotly
+python-dotenv
+sentence-transformers
+langchain_huggingface
