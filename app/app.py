@@ -1,5 +1,5 @@
 import streamlit as st
-
+from pathlib import Path
 from dotenv import load_dotenv
 import sys
 import os
@@ -10,13 +10,16 @@ from pipeline.pipeline import AnimeRecommendationPipeline
 st.set_page_config(page_title="Anime Recommender", layout="wide")
 load_dotenv()
 
+image_path = Path("/Users/elifsakin/Desktop/anime recommender/app/image/elif_anime.png")
 
-st.image(
-    "/Users/elifsakin/Downloads/ChatGPT Image 26 Tem 2025 02_41_24.png",
-    caption="Anime-style Portrait by Elif Rana Sakin",
-    width=400  
-)
-
+if image_path.exists():
+    st.image(
+        str(image_path),
+        caption="Anime-style Portrait by Elif Rana Sakin",
+        width=400
+    )
+else:
+    st.warning("Görsel bulunamadı. Lütfen 'images/elif_anime.png' dosyasının proje içinde olduğundan emin olun.")
 
 @st.cache_resource
 def init_pipeline():
