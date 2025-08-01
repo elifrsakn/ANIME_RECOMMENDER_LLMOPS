@@ -1,14 +1,23 @@
 from langchain.chains import RetrievalQA
 from langchain_groq import ChatGroq
 from src.prompt_template import get_anime_prompt
+import os
+from langchain.chat_models import ChatGroq
 
 class AnimeRecommender:
-    def __init__(self, retriever, api_key:str, model_name:str):
+    def __init__(self, retriever):
+        api_key = os.getenv("GROQ_API_KEY")
+        model_name = os.getenv("MODEL_NAME")
+
+        if not api_key or not model_name:
+            raise ValueError("GROQ_API_KEY or MODEL_NAME environment variable not set!")
+
         self.llm = ChatGroq(
             api_key=api_key,
             model=model_name,
             temperature=0
         )
+
         self.prompt = get_anime_prompt()
         self.qa_chain = RetrievalQA.from_chain_type(
             llm=self.llm,
