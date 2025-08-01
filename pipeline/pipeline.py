@@ -3,20 +3,34 @@ from src.recommender import AnimeRecommender
 from config.config import GROQ_API_KEY, MODEL_NAME
 from utils.logger import get_logger
 from utils.custom_exception import CustomException
-
+import os
 logger = get_logger(__name__)
+
+
 class AnimeRecommendationPipeline:
     def __init__(self, persist_dir: str = "chroma_db"):
         try: 
             logger.info("Initializing AnimeRecommendationPipeline")
+
+            # Vektör deposunu yükle
             vector_builder = VectorStoreBuilder(
                 csv_path="",
                 persist_dir=persist_dir
             )
             retriever = vector_builder.load_vector_store().as_retriever()
             logger.info("Vector store loaded successfully")
-            self.recommender = AnimeRecommender(retriever, GROQ_API_KEY, MODEL_NAME)
+
+            # ENV değişkenlerini güvenli şekilde al
+            api_key = os.getenv("GROQ_API_KEY")
+            model_name = os.getenv("MODEL_NAME")
+
+            if not api_key or not model_name:
+                raise ValueError("Environment variables GROQ_API_KEY or MODEL_NAME not set!")
+
+            # Recommender başlat
+            self.recommender = AnimeRecommender(retriever, api_key, model_name)
             logger.info("AnimeRecommender initialized successfully")
+
         except Exception as e:
             logger.error(f"Error initializing AnimeRecommendationPipeline: {e}")
             raise CustomException(f"Failed to initialize pipeline: {e}")
