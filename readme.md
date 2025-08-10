@@ -123,6 +123,7 @@ kubectl logs <pod-name>
 
 ## 👩‍💻 Developer
 
-- [Elif Sakin](https://github.com/sakinnn) — AI / MLOps Developer
+- [Elif Sakin](https://github.com/sakinnn) — AI Developer
 ---
+
 
